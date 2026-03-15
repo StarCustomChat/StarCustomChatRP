@@ -84,7 +84,7 @@ end
 function languages:formatIncomingMessage(message)
 
   if self.serverLanguagesData and message.text and message.data and message.data.SCCRPLanguageCode then
-    math.randomseed(message.uuid)
+    math.randomseed(tonumber(message.uuid))
     local code = message.data.SCCRPLanguageCode
     local languageConfig = self.serverLanguagesData[code]
 
@@ -122,7 +122,7 @@ function languages:formatOutcomingMessage(message)
     if message.mode ~= "Whisper" then
       player.say(originalText:gsub('%b""', function(quoted)
         -- when echoing to self we always treat the language as fully unknown
-        return applyTransformation(quoted, 0, { difficulty = 1 })
+        return applyTransformation(quoted, 0, self.serverLanguagesData[message.data.SCCRPLanguageCode] or {})
       end))
     end
   end

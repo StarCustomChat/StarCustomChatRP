@@ -58,28 +58,12 @@ function pickRuleForFraction(rules, fraction)
   return chosen
 end
 
-function applyShuffle(content, fraction, rule)
-  -- fallback to original shuffle behaviour
-  local difficulty = rule.difficulty or 1
-  local myLevel = fraction * difficulty
-  local special = {}
-  if rule.specialCharacters then
-    special = rule.specialCharacters
-  elseif rule.specialCharacters == nil and rule.difficulty then
-    -- legacy: caller passed specialCharacters separately
-  end
-
-  local shuffleIntensity
-  if rule.shuffleIntensity then
-    shuffleIntensity = rule.shuffleIntensity
-  else
-    shuffleIntensity = math.max(0, 1 - fraction)
-  end
-
+function applyShuffle(content, shuffleIntensity, specialCharacters, onlySpecialCharacters)
   local obfuscatedContent = {}
   for word in content:gmatch("%S+") do
     if math.random() < shuffleIntensity then
-      table.insert(obfuscatedContent, obfuscateWord(word, special or {}, rule.onlySpecialCharacters))
+      local obfuscatedWord = obfuscateWord(word, specialCharacters, onlySpecialCharacters)
+      table.insert(obfuscatedContent, obfuscatedWord)
     else
       table.insert(obfuscatedContent, word)
     end
@@ -148,27 +132,28 @@ function applyRepeat(content, repeatRate, repeatChars)
   return table.concat(repeated, " ")
 end
 
-function applyChain(content, steps)
-  if not steps or #steps == 0 then
+
+function transformContent(content, rule)
+
+  if rule.strategy == "shuffle" then
+    return applyShuffle(content, rule.shuffleIntensity, rule.specialCharacters or {}, rule.onlySpecialCharacters)
+  elseif rule.strategy == "substitute" then
+    return applySubstitution(content, rule.map)
+  elseif rule.strategy == "drop" then
+    return applyDrop(content, rule.dropRate, rule.dropChars or {})
+  elseif rule.strategy == "repeat" then
+    return applyRepeat(content, rule.repeatRate, rule.repeatChars or {})
+  elseif rule.strategy == "chain" then
+    for _, subrule in ipairs(rule.steps) do 
+      content = transformContent(content, subrule)
+    end
+    return content
+  else
+    -- unrecognised strategy: fall back to raw text so nothing breaks
     return content
   end
-
-  local current = content
-  for _, step in ipairs(steps) do
-    if step.strategy == "substitute" then
-      current = applySubstitution(current, step.map)
-    elseif step.strategy == "drop" then
-      current = applyDrop(current, step.dropRate or 0.5, step.dropChars)
-    elseif step.strategy == "repeat" then
-      current = applyRepeat(current, step.repeatRate or 0.3, step.repeatChars)
-    elseif step.strategy == "none" then
-      -- do nothing
-    else
-      -- unknown step, skip
-    end
-  end
-  return current
 end
+
 
 function applyTransformation(content, myLevel, langConfig)
   -- difficulty 0 means nobody needs transformation
@@ -200,20 +185,7 @@ function applyTransformation(content, myLevel, langConfig)
     return content
   end
 
-  if rule.strategy == "shuffle" then
-    return applyShuffle(content, fraction, rule)
-  elseif rule.strategy == "substitute" then
-    return applySubstitution(content, rule.map)
-  elseif rule.strategy == "drop" then
-    return applyDrop(content, rule.dropRate, rule.dropChars or {})
-  elseif rule.strategy == "repeat" then
-    return applyRepeat(content, rule.repeatRate, rule.repeatChars or {})
-  elseif rule.strategy == "chain" then
-    return applyChain(content, rule.steps)
-  else
-    -- unrecognised strategy: fall back to raw text so nothing breaks
-    return content
-  end
+  return transformContent(content, rule)
 end
 
 function shuffleFunction(content, myLevel, difficulty, specialCharacters)
@@ -256,7 +228,7 @@ function obfuscateWord(word, specialCharacters, onlyPassedSpecialChars)
     local char = utf8.char(c)
     if not char:match("[%s%p%c]") then
       -- Replace with a visually similar character or random special character
-      if math.random() < 0.5 then
+      if math.random() < 0.5 and not onlyPassedSpecialChars then
         char = similarCharacters[char] or char
       else
         char = getRandomCharacter(specialCharacters, onlyPassedSpecialChars)
