@@ -81,7 +81,7 @@ function proximitychat:onSettingsUpdate(data)
       widget.setText("lytProxChangeRadius.lblProxRadiusValue", self.proximityRadius)
       widget.setSliderValue("lytProxChangeRadius.sldProxRadius", self.proximityRadius - self.proximityMin)
       root.setConfiguration("scc_proximity_radius", self.proximityRadius)
-    elseif data.newProximityRestriction then
+    elseif data.newProximityRestriction ~= nil then
       self.receivingRestricted = data.newProximityRestriction or false
       root.setConfiguration("scc_proximity_restricted", self.receivingRestricted)
     end

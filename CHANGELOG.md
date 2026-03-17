@@ -1,2 +1,2 @@
 ## Hotfix
-Fixed the languages not performing the `shuffle` strategy.
+Fixed the Proximity Chat restriction not being saved
