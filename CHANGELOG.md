@@ -1,2 +1,2 @@
-## Hotfix
-Fixed the Proximity Chat restriction not being saved
+## Bugfixes
+Languages: Only show the language tooltip if there is transformed content

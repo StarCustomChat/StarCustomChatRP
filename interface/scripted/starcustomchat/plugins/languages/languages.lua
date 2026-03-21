@@ -88,15 +88,19 @@ function languages:formatIncomingMessage(message)
     local code = message.data.SCCRPLanguageCode
     local languageConfig = self.serverLanguagesData[code]
 
+    local hasContent = false
     message.text = message.text:gsub('%b""', function(quoted)
+      hasContent = true
       local content = quoted:sub(2, -2)
       local knowledge = self.languagesLevels[code] and self.languagesLevels[code].knowledge or 0
       content = applyTransformation(content, languageConfig and knowledge, languageConfig)
       return '"' .. content .. '"'
     end)
 
-    message.languageName = message.data.SCCRPLanguageName
-    message.languageCode = code
+    if not hasContent then
+      message.data.SCCRPLanguageName = nil
+      message.data.SCCRPLanguageCode = nil
+    end
   end
 
   math.randomseed(os.time())
@@ -105,8 +109,8 @@ end
 
 function languages:onCreateTooltip(screenPosition)
   local selectedMessage = self.customChat:selectMessage()
-  if selectedMessage and selectedMessage.languageName then
-    return starcustomchat.utils.getTranslation("tooltips.languages.name", selectedMessage.languageName)
+  if selectedMessage and selectedMessage.data and selectedMessage.data.SCCRPLanguageName then
+    return starcustomchat.utils.getTranslation("tooltips.languages.name", selectedMessage.data.SCCRPLanguageName)
   end
 end
 
