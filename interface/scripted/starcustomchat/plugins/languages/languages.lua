@@ -170,6 +170,9 @@ function languages:onCustomButtonClick(btnName, data)
         widget.setVisible("lytSelectLanguage", false)
       end
     end
+
+    local languageName = self.selectedLanguage and self.serverLanguagesData[self.selectedLanguage].name or nil
+
     widget.setButtonImages("lytLeftMenu.saButtons.btnSelectRPLanguage", {
       base = string.format("/interface/scripted/starcustomchat/plugins/languages/interface/languages%s.png", self.selectedLanguage and "selected" or ""),
       hover = string.format("/interface/scripted/starcustomchat/plugins/languages/interface/languages%shover.png",  self.selectedLanguage and "selected" or "")
@@ -177,8 +180,22 @@ function languages:onCustomButtonClick(btnName, data)
 
     widget.setData("lytLeftMenu.saButtons.btnSelectRPLanguage", {
       displayText = "chat.buttons.language",
-      displayPlainText = self.selectedLanguage and self.serverLanguagesData[self.selectedLanguage].name or nil
+      displayPlainText = languageName
     })
+
+    self:onLocaleChange()
+  end
+end
+
+function languages:onLocaleChange()
+  local hint = starcustomchat.utils.getTranslation("chat.textbox.hint")
+  local languageName = self.selectedLanguage and self.serverLanguagesData[self.selectedLanguage].name or nil
+
+  if not widget.setHint then 
+    widget.setText("lblTextboxHint", hint .. (languageName and " (" .. languageName ..")" or ""))
+  else
+    widget.setText("lblTextboxHint", "")
+    widget.setHint("tbxInput", hint .. (languageName and " (" .. languageName ..")" or ""))
   end
 end
 
