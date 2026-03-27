@@ -117,17 +117,23 @@ end
 function languages:formatOutcomingMessage(message)
   if self.serverLanguagesData and self.selectedLanguage and message.text then
     local originalText = message.text
+    local hasContent = false
 
-    message.data = message.data or {} 
-    message.data.SCCRPLanguageCode = self.selectedLanguage
-    message.data.SCCRPLanguageName = self.serverLanguagesData[self.selectedLanguage].name
+    local transformedText = originalText:gsub('%b""', function(quoted)
+      hasContent = true
+      -- when echoing to self we always treat the language as fully unknown
+      return applyTransformation(quoted, 0, self.serverLanguagesData[self.selectedLanguage] or {})
+    end)
 
-    message.silent = true
-    if message.mode ~= "Whisper" then
-      player.say(originalText:gsub('%b""', function(quoted)
-        -- when echoing to self we always treat the language as fully unknown
-        return applyTransformation(quoted, 0, self.serverLanguagesData[message.data.SCCRPLanguageCode] or {})
-      end))
+    if hasContent then
+      message.data = message.data or {} 
+      message.data.SCCRPLanguageCode = self.selectedLanguage
+      message.data.SCCRPLanguageName = self.serverLanguagesData[self.selectedLanguage].name
+
+      message.silent = true
+      if message.mode ~= "Whisper" then
+        player.say(transformedText)
+      end
     end
   end
   return message
