@@ -43,7 +43,7 @@ end
 function editmessage:onTextboxEnter()
   if self.editingMessage then
     local data = {
-      text = widget.getText("tbxInput"),
+      text = self.customChat:getText(),
       uuid = self.editingMessage.uuid,
       connection = self.editingMessage.connection,
       mode = self.editingMessage.mode,
@@ -86,8 +86,8 @@ function editmessage:contextMenuButtonClick(buttonName, selectedMessage)
     self.customChat:openSubMenu("edit", 
       starcustomchat.utils.getTranslation("chat.editing.hint"), 
       starcustomchat.utils.cropMessage(cleartext, self.trimLength))
-    widget.focus("tbxInput")
-    widget.setText("tbxInput", cleartext)
+    self.customChat:focusInput()
+    self.customChat:setText(cleartext)
   end
 end
 
@@ -100,6 +100,6 @@ end
 function editmessage:onSubMenuClose(buttonName, data)
   if self.editingMessage then
     self.editingMessage = nil
-    widget.blur("tbxInput")
+    self.customChat:blurInput()
   end
 end

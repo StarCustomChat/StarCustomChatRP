@@ -1,5 +1,4 @@
 require "/interface/scripted/starcustomchat/plugin.lua"
-require "/interface/BiggerChat/scripts/utf8.lua"
 require "/interface/scripted/starcustomchat/plugins/languages/languageUtils.lua"
 
 languages = PluginClass:new(
@@ -197,12 +196,7 @@ function languages:onLocaleChange()
   local hint = starcustomchat.utils.getTranslation("chat.textbox.hint")
   local languageName = self.selectedLanguage and self.serverLanguagesData[self.selectedLanguage].name or nil
 
-  if not widget.setHint then 
-    widget.setText("lblTextboxHint", hint .. (languageName and " (" .. languageName ..")" or ""))
-  else
-    widget.setText("lblTextboxHint", "")
-    widget.setHint("tbxInput", hint .. (languageName and " (" .. languageName ..")" or ""))
-  end
+  self.customChat:setHint(hint .. (languageName and " (" .. languageName ..")" or ""))
 end
 
 function languages:onChatScroll(screenPosition)
