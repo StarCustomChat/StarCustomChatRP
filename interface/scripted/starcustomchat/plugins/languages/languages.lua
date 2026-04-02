@@ -107,7 +107,7 @@ function languages:formatIncomingMessage(message)
 end
 
 function languages:onCreateTooltip(screenPosition)
-  local selectedMessage = self.customChat:selectMessage()
+  local selectedMessage = self.customChat:selectMessage(screenPosition)
   if selectedMessage and selectedMessage.data and selectedMessage.data.SCCRPLanguageName then
     return starcustomchat.utils.getTranslation("tooltips.languages.name", selectedMessage.data.SCCRPLanguageName)
   end
