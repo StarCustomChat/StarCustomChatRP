@@ -9,8 +9,9 @@ function editmessage:init(chat)
   self.editingMessage = config.getParameter("editingMessage")
 
   if self.editingMessage then
+    local text = string.gsub(self.editingMessage.text, "\n", "\\n")
     self.customChat:openSubMenu("edit", starcustomchat.utils.getTranslation("chat.editing.hint"), 
-    starcustomchat.utils.cropMessage(self.editingMessage.text, self.trimLength))
+    starcustomchat.utils.cropMessage(text, self.trimLength))
   end
 
   self.stagehandEnabled = false
@@ -22,9 +23,10 @@ end
 
 function editmessage:onLocaleChange()
   if self.editingMessage then
+    local text = string.gsub(self.editingMessage.text, "\n", "\\n")
     self.customChat:openSubMenu("edit", 
       starcustomchat.utils.getTranslation("chat.editing.hint"), 
-      starcustomchat.utils.cropMessage(self.editingMessage.text, self.trimLength))
+      starcustomchat.utils.cropMessage(text, self.trimLength))
   end
 end
 
@@ -82,10 +84,10 @@ function editmessage:contextMenuButtonClick(buttonName, selectedMessage)
     self.editingMessage = selectedMessage
 
     local cleartext = starcustomchat.utils.clearMetatags(selectedMessage.text)
-    cleartext = string.gsub(cleartext, "\n", "\\n")
+    
     self.customChat:openSubMenu("edit", 
       starcustomchat.utils.getTranslation("chat.editing.hint"), 
-      starcustomchat.utils.cropMessage(cleartext, self.trimLength))
+      starcustomchat.utils.cropMessage(string.gsub(cleartext, "\n", "\\n"), self.trimLength))
     self.customChat:focusInput()
     self.customChat:setText(cleartext)
   end
