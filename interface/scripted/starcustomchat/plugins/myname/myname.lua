@@ -51,7 +51,7 @@ function myname:formatIncomingMessage(message)
       if message.text:find(name:lower(), nil, true) then
         message.myNameToHighlight = true
         table.insert(self.highlightMessages, message)
-        if self.pingEnabled then
+        if self.pingEnabled and not message.edited then
           pane.playSound(self.pingSound)
           starcustomchat.utils.alert("settings.plugins.myname.name_used", message.nickname)
         end
@@ -66,7 +66,7 @@ function myname:formatIncomingMessage(message)
           if not handled then
             message.myNameToHighlight = true
             table.insert(self.highlightMessages, message)
-            if self.pingEnabled then
+            if self.pingEnabled and not message.edited then
               pane.playSound(self.pingSound)
               starcustomchat.utils.alert("settings.plugins.myname.name_used", message.nickname)
             end
