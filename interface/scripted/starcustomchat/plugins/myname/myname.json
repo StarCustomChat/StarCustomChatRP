@@ -66,8 +66,8 @@
                 "btnRemove": {
                   "type": "button",
                   "position": [60, 3],
-                  "base": "/interface/scripted/starcustomchatsettings/common/remove.png:base",
-                  "hover": "/interface/scripted/starcustomchatsettings/common/remove.png:hover",
+                  "base": "/interface/scripted/starcustomchatsettings/images/common/remove.png:base",
+                  "hover": "/interface/scripted/starcustomchatsettings/images/common/remove.png:hover",
                   "callback": "removeName",
                   "data": {
                     "displayText": "settings.plugins.myname.cant_remove_own_name"
