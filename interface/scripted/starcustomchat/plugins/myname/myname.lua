@@ -48,7 +48,7 @@ function myname:formatIncomingMessage(message)
 
   if not self.coloringEnabled then
     for _, name in ipairs(self.myNameList) do
-      if message.text:find(name:lower(), nil, true) then
+      if message.text:find(utf8.lower(name), nil, true) then
         message.myNameToHighlight = true
         table.insert(self.highlightMessages, message)
         if self.pingEnabled and not message.edited then
@@ -62,7 +62,7 @@ function myname:formatIncomingMessage(message)
     local handled = false
     message.text = message.text:gsub("[^%s%p]+", function(word)
       for _, name in ipairs(self.myNameList) do
-        if word:lower() == name:lower() then
+        if utf8.lower(word) == utf8.lower(name) then
           if not handled then
             message.myNameToHighlight = true
             table.insert(self.highlightMessages, message)
