@@ -154,7 +154,7 @@
         "hAnchor": "left",
         "vAnchor": "mid",
         "callback": "null",
-        "width": 100,
+        "maxWidth": 140,
         "hintTranslationKey": "settings.plugins.myname.add_new_name",
         "enterKey": "addNewName"
       }
