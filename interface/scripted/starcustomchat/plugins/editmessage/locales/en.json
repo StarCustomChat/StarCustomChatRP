@@ -1,5 +1,4 @@
 {
     "chat.commands.edit": "Edit message",
-    "chat.editing.hint": "Editing: ",
-    "chat.message.edited": "edited"
+    "chat.editing.hint": "Editing: "
 }
