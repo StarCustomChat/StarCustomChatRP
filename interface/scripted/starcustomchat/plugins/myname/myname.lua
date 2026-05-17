@@ -47,22 +47,10 @@ function myname:formatIncomingMessage(message)
   end
 
   if not self.coloringEnabled then
-    for _, name in ipairs(self.myNameList) do
-      if message.text:find(utf8.lower(name), nil, true) then
-        message.myNameToHighlight = true
-        table.insert(self.highlightMessages, message)
-        if self.pingEnabled and not message.edited then
-          pane.playSound(self.pingSound)
-          starcustomchat.utils.alert("settings.plugins.myname.name_used", message.nickname)
-        end
-        return message
-      end
-    end
-  else
     local handled = false
-    message.text = message.text:gsub("[^%s%p]+", function(word)
-      for _, name in ipairs(self.myNameList) do
-        if utf8.lower(word) == utf8.lower(name) then
+    for _, name in ipairs(self.myNameList) do
+      if message.text:gsub("[^%s%p]+", function(word)
+        if utf8.lower(word):sub(1, #name) == utf8.lower(name) then
           if not handled then
             message.myNameToHighlight = true
             table.insert(self.highlightMessages, message)
@@ -72,7 +60,28 @@ function myname:formatIncomingMessage(message)
             end
             handled = true
           end
-          return "^set;^" .. self.customChat:getColor("myname") .. ";" .. name .. "^reset;"
+          return true
+        end
+        return false
+      end) then
+        return message
+      end
+    end
+  else
+    local handled = false
+    message.text = message.text:gsub("[^%s%p]+", function(word)
+      for _, name in ipairs(self.myNameList) do
+        if utf8.lower(word):sub(1, #name) == utf8.lower(name) then
+          if not handled then
+            message.myNameToHighlight = true
+            table.insert(self.highlightMessages, message)
+            if self.pingEnabled and not message.edited then
+              pane.playSound(self.pingSound)
+              starcustomchat.utils.alert("settings.plugins.myname.name_used", message.nickname)
+            end
+            handled = true
+          end
+          return "^set;^" .. self.customChat:getColor("myname") .. ";" .. word .. "^reset;"
         end
       end
       return word
