@@ -49,22 +49,25 @@ function myname:formatIncomingMessage(message)
   if not self.coloringEnabled then
     local handled = false
     for _, name in ipairs(self.myNameList) do
-      if message.text:gsub("[^%s%p]+", function(word)
+      for word in message.text:gmatch("[^%s%p]+") do
         if utf8.lower(word):sub(1, #name) == utf8.lower(name) then
           if not handled then
             message.myNameToHighlight = true
             table.insert(self.highlightMessages, message)
+
             if self.pingEnabled and not message.edited then
               pane.playSound(self.pingSound)
-              starcustomchat.utils.alert("settings.plugins.myname.name_used", message.nickname)
+              starcustomchat.utils.alert(
+                "settings.plugins.myname.name_used",
+                message.nickname
+              )
             end
+
             handled = true
           end
-          return true
+
+          return message
         end
-        return false
-      end) then
-        return message
       end
     end
   else
