@@ -27,7 +27,8 @@
   },
 
   "parameters": {
-    "defaultColor": "575757"
+    "defaultColor": "575757",
+    "sendingMode": "Broadcast"
   },
 
   "script": "/interface/scripted/starcustomchat/plugins/oocchat/oocchat.lua"

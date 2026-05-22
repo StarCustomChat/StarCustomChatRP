@@ -4,6 +4,10 @@ oocchat = PluginClass:new(
   { name = "oocchat" }
 )
 
+function oocchat:init(chat)
+  PluginClass.init(self, chat)
+end
+
 function oocchat:formatIncomingMessage(message)
   if message.text:find("^%s*%(%(") and (message.text:find("^%s*%(%b()%)%s*$") or not message.text:find("%)%)")) then
     if message.mode == "Broadcast" or message.mode == "Local" then
@@ -21,7 +25,7 @@ end
 function oocchat:formatOutcomingMessage(message)
   if message.mode == "OOC" then
     message.text = string.format("((%s))", message.text)
-    message.mode = "Broadcast"
+    message.mode = self.sendingMode
   end
   return message
 end
