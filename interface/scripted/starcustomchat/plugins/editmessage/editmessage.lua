@@ -103,5 +103,6 @@ function editmessage:onSubMenuClose(buttonName, data)
   if self.editingMessage then
     self.editingMessage = nil
     self.customChat:blurInput()
+    self.customChat:setText("")
   end
 end
