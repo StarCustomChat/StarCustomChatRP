@@ -1,0 +1,11 @@
+{
+    "settings.plugins.myname": "Маё імя",
+    "settings.colors.myname": "Маё імя",
+    "settings.plugins.myname.coloring_enabled": "Афарбоўка імя",
+    "settings.plugins.myname.ping_enabled": "Пінг",
+    "settings.plugins.myname.add_new_name": "+ Дадаць новае імя",
+    "settings.plugins.myname.remove_name": "Выдаліць імя",
+    "settings.plugins.myname.background_enabled": "Афарбоўка фону",
+    "settings.plugins.myname.name_used": "%s згадаў вас",
+    "settings.colors.myname.background": "Фон майго імя"
+}

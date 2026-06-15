@@ -1,0 +1,14 @@
+{
+    "settings.plugins.languages": "RP мовы",
+    "settings.plugins.languages.no_languages_support": "RP мовы не падтрымліваюцца на гэтым серверы",
+    "settings.plugins.languages.languages_disabled": "RP мовы не ўключаны",
+    "settings.plugins.languages.knowledge": "Бягучыя веды",
+    "settings.plugins.languages.difficulty": "Складанасць:",
+    "settings.plugins.languages.difficulty_zero": "Звычайны",
+    "chat.buttons.language": "Выбраць мову ролевой гульні",
+    "chat.language.disabled": "^gray;Без перакладу",
+    "tooltips.languages.name": "Мова: %s",
+    "chat.alerts.languages.unknown": "^red;Вы не ведаеце мову %s",
+    "chat.alerts.languages.selected": "Тэкст у \"двукоссі\" будзе адпраўляцца на мове ^green;%s^reset;",
+    "tooltips.languages.proficiency": "Узровень валодання: %s"
+}
