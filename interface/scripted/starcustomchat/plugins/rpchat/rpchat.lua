@@ -21,8 +21,15 @@ function rpchat:formatIncomingMessage(message)
     message.portrait = message.portrait and message.portrait ~= '' and message.portrait or self.modeIcons.server
   end
 
-  message.text = string.gsub(message.text, "%b**", "^set;^" .. self.customChat:getColor("actionstext") .. ";^font=" .. self.customChat:getFont("actionstext") .. ";%1^reset;")
-  message.text = string.gsub(message.text, "%b%%", "^set;^" .. self.customChat:getColor("thoughtstext") .. ";^font=" .. self.customChat:getFont("thoughtstext") .. ";%1^reset;")
+  local actionStyle = "^" .. self.customChat:getColor("actionstext") .. ";^font=" .. self.customChat:getFont("actionstext") .. ";"
+  local thoughtsStyle = "^" .. self.customChat:getColor("thoughtstext") .. ";^font=" .. self.customChat:getFont("thoughtstext") .. ";"
+
+  message.text = string.gsub(message.text, "%b**", function(text)
+    return starcustomchat.utils.styleText(message, actionStyle, text)
+  end)
+  message.text = string.gsub(message.text, "%b%%", function(text)
+    return starcustomchat.utils.styleText(message, thoughtsStyle, text)
+  end)
   
   return message
 end

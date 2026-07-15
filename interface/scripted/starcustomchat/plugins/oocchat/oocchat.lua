@@ -16,8 +16,13 @@ function oocchat:formatIncomingMessage(message)
   end
 
   if message.text:find("%(%(") then
-    message.text = string.gsub(message.text, "%(%(.-%)%)", "^" .. self.customChat:getColor("occtext") .. ";%1^reset;")
-    message.text = string.gsub(message.text, "(.*)%(%((.-[^)][^)])$", "%1^" .. self.customChat:getColor("occtext") .. ";((%2")
+    local oocStyle = "^" .. self.customChat:getColor("occtext") .. ";"
+    message.text = string.gsub(message.text, "%(%(.-%)%)", function(text)
+      return starcustomchat.utils.styleText(message, oocStyle, text)
+    end)
+    message.text = string.gsub(message.text, "(.*)%(%((.-[^)][^)])$", function(prefix, text)
+      return prefix .. starcustomchat.utils.styleStart(message, oocStyle) .. "((" .. text
+    end)
   end
   return message
 end

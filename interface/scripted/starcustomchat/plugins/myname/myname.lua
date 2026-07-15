@@ -72,6 +72,7 @@ function myname:formatIncomingMessage(message)
     end
   else
     local handled = false
+    local nameStyle = "^" .. self.customChat:getColor("myname") .. ";"
     message.text = message.text:gsub("[^%s%p]+", function(word)
       for _, name in ipairs(self.myNameList) do
         if utf8.lower(word):sub(1, #name) == utf8.lower(name) then
@@ -84,7 +85,7 @@ function myname:formatIncomingMessage(message)
             end
             handled = true
           end
-          return "^set;^" .. self.customChat:getColor("myname") .. ";" .. word .. "^reset;"
+          return starcustomchat.utils.styleText(message, nameStyle, word)
         end
       end
       return word

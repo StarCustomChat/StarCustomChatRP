@@ -9,3 +9,4 @@ MyName: Fixed the long names going out of bounds in the settings pane.
 MyName: The words now ignore the case for UTF-8 strings as well.
 MyName: Only check for the beginning of the words.
 EditMessage: Clear the textbox on closing the submenu with the button.
+MyName+RPChat: Fixed the style mishap when the name is inside the action string.
