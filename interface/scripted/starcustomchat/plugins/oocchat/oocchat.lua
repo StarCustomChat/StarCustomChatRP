@@ -21,6 +21,9 @@ function oocchat:formatIncomingMessage(message)
       return starcustomchat.utils.styleText(message, oocStyle, text)
     end)
     message.text = string.gsub(message.text, "(.*)%(%((.-[^)][^)])$", function(prefix, text)
+      if text:find("%)%)") then
+        return prefix .. "((" .. text
+      end
       return prefix .. starcustomchat.utils.styleStart(message, oocStyle) .. "((" .. text
     end)
   end
