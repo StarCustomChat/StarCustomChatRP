@@ -1,6 +1,7 @@
 ## Features
 Languages: Textbox hint now shows the language you're about to use.
 OOC Chat: Allow changing the mode OOC resolves to.
+OOC Chat: Add the paramter to change the font of OOC text
 
 ## Bugfixes
 Languages: Only show the language tooltip if there is transformed content.

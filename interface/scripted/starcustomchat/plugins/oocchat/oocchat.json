@@ -17,6 +17,14 @@
           "default": "575757"
         }
       ]
+    },
+    "fonts": {
+      "items": [
+        {
+          "name": "occtext",
+          "label": "chat.modes.OOC"
+        }
+      ]
     }
   },
 

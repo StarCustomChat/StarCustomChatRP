@@ -16,7 +16,8 @@ function oocchat:formatIncomingMessage(message)
   end
 
   if message.text:find("%(%(") then
-    local oocStyle = "^" .. self.customChat:getColor("occtext") .. ";"
+    local oocStyle = "^" .. self.customChat:getColor("occtext") .. ";^font=" .. self.customChat:getFont("occtext") .. ";"
+
     message.text = string.gsub(message.text, "%(%(.-%)%)", function(text)
       return starcustomchat.utils.styleText(message, oocStyle, text)
     end)
