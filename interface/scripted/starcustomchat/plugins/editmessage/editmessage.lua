@@ -93,7 +93,31 @@ function editmessage:contextMenuButtonClick(buttonName, selectedMessage)
   end
 end
 
-function 
+function editmessage:processEvents(events)
+  for _, event in ipairs(events) do 
+    if event.type == "KeyDown" and event.data.key == "Up" then
+      if self.customChat:hasFocusInput() and self.customChat:getText() == "" and not self.customChat:getSubMenuType() then
+        local myConnection = starcustomchat.utils.entityIdToConnection(player.id())
+        local messages = self.customChat:findMessagesByConnection(myConnection)
+
+        if #messages > 0 then
+          local selectedMessage = messages[1]
+
+          if selectedMessage and selectedMessage.uuid and selectedMessage.mode ~= "CommandResult" and not selectedMessage.image then
+            self.editingMessage = selectedMessage
+
+            local cleartext = starcustomchat.utils.clearMetatags(selectedMessage.text)
+            self.customChat:openSubMenu("edit",
+              starcustomchat.utils.getTranslation("chat.editing.hint"),
+              starcustomchat.utils.cropMessage(string.gsub(cleartext, "\n", "    "), self.trimLength))
+            self.customChat:focusInput()
+            self.customChat:setText(cleartext)
+          end
+        end
+      end
+    end
+  end
+end
 
 function editmessage:onSubMenuClose(buttonName, data)
   if self.editingMessage then
