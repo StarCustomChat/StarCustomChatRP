@@ -112,7 +112,18 @@ function editmessage:processEvents(events)
               starcustomchat.utils.cropMessage(string.gsub(cleartext, "\n", "    "), self.trimLength))
             self.customChat:focusInput()
             self.customChat:setText(cleartext)
-            self.customChat:scrollToMessage(self.customChat:findMessageByUUID(selectedMessage.uuid), 20)
+
+            local targetIsInsideChat = selectedMessage.offset and selectedMessage.height
+              and self.customChat:isInsideChat(
+                selectedMessage,
+                selectedMessage.offset,
+                self.customChat.config.spacings.name + self.customChat.config.fontSize + 1,
+                self.customChat.canvas:size()
+              )
+
+            if not targetIsInsideChat then
+              self.customChat:scrollToMessage(self.customChat:findMessageByUUID(selectedMessage.uuid), 30)
+            end
           end
         end
       end
