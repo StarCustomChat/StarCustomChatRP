@@ -95,7 +95,7 @@ end
 
 function editmessage:processEvents(events)
   for _, event in ipairs(events) do 
-    if event.type == "KeyDown" and event.data.key == "Up" then
+    if event.type == "KeyDown" and event.data.key == "Up" and (not event.data.mods or next(event.data.mods) == nil) then
       if self.customChat:hasFocusInput() and self.customChat:getText() == "" and not self.customChat:getSubMenuType() then
         local myConnection = starcustomchat.utils.entityIdToConnection(player.id())
         local messages = self.customChat:findMessagesByConnection(myConnection)
