@@ -93,11 +93,7 @@ function editmessage:contextMenuButtonClick(buttonName, selectedMessage)
   end
 end
 
-function editmessage:onBackgroundChange(chatConfig)
-  chatConfig.editingMessage = self.editingMessage
-  return chatConfig
-end
-
+function 
 
 function editmessage:onSubMenuClose(buttonName, data)
   if self.editingMessage then
