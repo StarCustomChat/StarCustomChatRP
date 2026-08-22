@@ -112,6 +112,7 @@ function editmessage:processEvents(events)
               starcustomchat.utils.cropMessage(string.gsub(cleartext, "\n", "    "), self.trimLength))
             self.customChat:focusInput()
             self.customChat:setText(cleartext)
+            self.customChat:scrollToMessage(self.customChat:findMessageByUUID(selectedMessage.uuid), 20)
           end
         end
       end
