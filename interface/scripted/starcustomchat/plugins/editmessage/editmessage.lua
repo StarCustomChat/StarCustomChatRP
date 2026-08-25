@@ -122,7 +122,9 @@ function editmessage:processEvents(events)
               )
 
             if not targetIsInsideChat then
-              self.customChat:scrollToMessage(self.customChat:findMessageByUUID(selectedMessage.uuid), 30)
+              local canvasHeight = self.customChat.canvas:size()[2]
+              local targetY = (canvasHeight + selectedMessage.height) / 2
+              self.customChat:scrollToMessage(self.customChat:findMessageByUUID(selectedMessage.uuid), targetY)
             end
           end
         end
