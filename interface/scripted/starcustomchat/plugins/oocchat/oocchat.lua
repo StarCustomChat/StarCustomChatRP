@@ -9,13 +9,14 @@ function oocchat:init(chat)
 end
 
 function oocchat:formatIncomingMessage(message)
-  if message.text:find("^%s*%(%(") and (message.text:find("^%s*%(%b()%)%s*$") or not message.text:find("%)%)")) then
-    if message.mode == "Broadcast" or message.mode == "Local" then
+  local trimmedText = starcustomchat.utils.clearMetatags(message.text)
+  if trimmedText:find("^%s*%(%(") and (trimmedText:find("^%s*%(%b()%)%s*$") or not trimmedText:find("%)%)")) then
+    if message.mode ~= "Whisper" then
       message.mode = "OOC"
     end
   end
 
-  if message.text:find("%(%(") then
+  if trimmedText:find("%(%(") then
     local oocStyle = "^" .. self.customChat:getColor("occtext") .. ";^font=" .. self.customChat:getFont("occtext") .. ";"
 
     message.text = string.gsub(message.text, "%(%(.-%)%)", function(text)
