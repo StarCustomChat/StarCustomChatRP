@@ -93,9 +93,19 @@ function editmessage:contextMenuButtonClick(buttonName, selectedMessage)
   end
 end
 
+local function hasShiftOrCtrl(mods)
+  if not mods then
+    return false
+  end
+
+  return mods.LShift or mods.RShift or mods.LCtrl or mods.RCtrl
+    or index(mods, "LShift") ~= 0 or index(mods, "RShift") ~= 0
+    or index(mods, "LCtrl") ~= 0 or index(mods, "RCtrl") ~= 0
+end
+
 function editmessage:processEvents(events)
   for _, event in ipairs(events) do 
-    if event.type == "KeyDown" and event.data.key == "Up" and (not event.data.mods or next(event.data.mods) == nil) then
+    if event.type == "KeyDown" and event.data.key == "Up" and not hasShiftOrCtrl(event.data.mods) then
       if self.customChat:hasFocusInput() and self.customChat:getText() == "" and not self.customChat:getSubMenuType() then
         local myConnection = starcustomchat.utils.entityIdToConnection(player.id())
         local messages = self.customChat:findMessagesByConnection(myConnection)
