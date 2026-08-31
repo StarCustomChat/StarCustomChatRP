@@ -16,7 +16,7 @@
         "hover": "/interface/scripted/starcustomchat/plugins/languages/interface/languageshover.png",
         "callback": "customButtonCallback",
         "data": {
-          "displayText": "chat.buttons.language"
+          "displayText": "settings.plugins.languages.no_languages_support"
         }
       }
     ],

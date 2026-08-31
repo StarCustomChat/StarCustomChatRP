@@ -31,6 +31,9 @@ function languages:registerMessageHandlers()
     if serverLanguagesData then
       self.serverLanguagesData = serverLanguagesData
       widget.setButtonEnabled("lytLeftMenu.saButtons.btnSelectRPLanguage", true)
+      widget.setData("lytLeftMenu.saButtons.btnSelectRPLanguage", {
+        displayText = "chat.buttons.language"
+      })
       self:populateLanguageList()
     end
   end)
@@ -93,7 +96,7 @@ function languages:formatIncomingMessage(message)
       local content = quoted:sub(2, -2)
       local knowledge = self.languagesLevels[code] and self.languagesLevels[code].knowledge or 0
       content = applyTransformation(content, languageConfig and knowledge, languageConfig)
-      return '"' .. content .. '"'
+      return '"' .. (self.serverLanguagesData[code].prefix and self.serverLanguagesData[code].prefix .. " " or "") .. content .. '"'
     end)
 
     if not hasContent then

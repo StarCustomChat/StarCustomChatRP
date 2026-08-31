@@ -1,5 +1,6 @@
 ## Features
 Languages: Textbox hint now shows the language you're about to use.
+Languages: Support the language prefix character in the languages configuration.
 OOC Chat: Allow changing the mode OOC resolves to.
 OOC Chat: Add the paramter to change the font of OOC text.
 OOC Chat: All the modes are now shifting to OOC, apart from Whisper.
