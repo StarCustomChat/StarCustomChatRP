@@ -99,7 +99,8 @@ function languages:formatIncomingMessage(message)
       content = (self.serverLanguagesData[code].prefix and self.serverLanguagesData[code].prefix .. " " or "") .. content
 
       local languageStyle = (self.serverLanguagesData[code].color and ("^" .. self.serverLanguagesData[code].color .. ";") or "") .. 
-        (self.serverLanguagesData[code].font and ("^font=" .. self.serverLanguagesData[code].font .. ";") or "")
+        (self.serverLanguagesData[code].font and ("^font=" .. self.serverLanguagesData[code].font .. ";") or "") .. 
+        (self.serverLanguagesData[code].directives or "")
 
       return '"' .. starcustomchat.utils.styleText(message, languageStyle, content) .. '"'
     end)
