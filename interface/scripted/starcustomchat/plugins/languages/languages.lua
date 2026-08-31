@@ -96,7 +96,12 @@ function languages:formatIncomingMessage(message)
       local content = quoted:sub(2, -2)
       local knowledge = self.languagesLevels[code] and self.languagesLevels[code].knowledge or 0
       content = applyTransformation(content, languageConfig and knowledge, languageConfig)
-      return '"' .. (self.serverLanguagesData[code].prefix and self.serverLanguagesData[code].prefix .. " " or "") .. content .. '"'
+      content = (self.serverLanguagesData[code].prefix and self.serverLanguagesData[code].prefix .. " " or "") .. content
+
+      local languageStyle = (self.serverLanguagesData[code].color and ("^" .. self.serverLanguagesData[code].color .. ";") or "") .. 
+        (self.serverLanguagesData[code].font and ("^font=" .. self.serverLanguagesData[code].font .. ";") or "")
+
+      return '"' .. starcustomchat.utils.styleText(message, languageStyle, content) .. '"'
     end)
 
     if not hasContent then

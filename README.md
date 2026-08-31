@@ -151,6 +151,8 @@ backwards compatibility.
 * **Name** [Mandatory] - The name of the language displayed to the user.
 * **Description** [Optional] - A description of the language that appears on the settings tab.
 * **Prefix** [Optional] - The prefix that will be appended to the translated message, to better distinguish it from the regular language.
+* **Color** [Optional] - The colour of the translated text.
+* **Font** [Optional] - The font of the translated text.
 * **Difficulty** [Optional] - The number of increments of "learning" (*pressing the "up" button on the knowledge spinner*) required to learn the language. If omitted, the default value is `1`. A value of `0` means the language is known to everyone and does not require learning.
 * **SpecialCharacters** [Optional] - A list of characters that can appear in the message, beyond the standard ASCII alphabet.  This is preserved for compatibility and affects the default shuffle strategy when no explicit transformation is provided.
 * **Transformation** [Optional] - An object containing a `rules` array.  Each rule defines a `knowledgeThreshold` (fraction of difficulty, between 0 and 1) and a `strategy` (`shuffle`, `substitute`, `none`, etc.).
