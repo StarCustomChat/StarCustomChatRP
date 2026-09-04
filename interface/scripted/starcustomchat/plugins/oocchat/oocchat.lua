@@ -22,7 +22,7 @@ function oocchat:formatIncomingMessage(message)
     message.text = string.gsub(message.text, "%(%(.-%)%)", function(text)
       return starcustomchat.utils.styleText(message, oocStyle, text)
     end)
-    message.text = string.gsub(message.text, "(.*)%(%((.-[^)][^)])$", function(prefix, text)
+    message.text = string.gsub(message.text, "(.*)%(%((.-)$", function(prefix, text)
       if text:find("%)%)") then
         return prefix .. "((" .. text
       end
